@@ -9,21 +9,26 @@ import ListGroup from "./listGroup";
 import _ from "lodash";
 
 export class BooksList extends Component {
-  state = {
+  state = JSON.parse(sessionStorage.getItem("componentState")) || {
     books: [],
     pageSize: 4,
     currentPage: 1,
     sortColumn: { path: "title", order: "asc" },
     authors: [],
+    selectedAuthor: { _id: "", name: "All Books" },
   };
 
   componentDidMount() {
-    const authors = [{ name: "All Books", _id: "" }, ...getAllAuthors()];
-
-    this.setState({
-      books: getBooks(),
-      authors,
-    });
+    const authors = [{ _id: "", name: "All Books" }, ...getAllAuthors()];
+    this.setState(
+      {
+        books: getBooks(),
+        authors,
+      },
+      () => {
+        sessionStorage.setItem("componentState", JSON.stringify(this.state));
+      }
+    );
   }
   handleDelete = (id) => {
     const books = this.state.books.filter((book) => book._id !== id);
@@ -42,17 +47,26 @@ export class BooksList extends Component {
   };
 
   handlePageChange = (page) => {
-    this.setState({ currentPage: page });
+    this.setState({ currentPage: page }, () => {
+      sessionStorage.setItem("componentState", JSON.stringify(this.state));
+    });
   };
 
   handleAuthorSelect = (author) => {
-    this.setState({ selectedAuthor: author, currentPage: 1 });
+    this.setState({ selectedAuthor: author, currentPage: 1 }, () => {
+      sessionStorage.setItem("componentState", JSON.stringify(this.state));
+    });
   };
 
   handleSort = (sortColumn) => {
-    this.setState({
-      sortColumn,
-    });
+    this.setState(
+      {
+        sortColumn,
+      },
+      () => {
+        sessionStorage.setItem("componentState", JSON.stringify(this.state));
+      }
+    );
   };
 
   getPageData = () => {

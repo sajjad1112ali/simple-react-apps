@@ -10,21 +10,23 @@ const ListGroup = (props) => {
   } = props;
   return (
     <ul className="list-group">
-      {authors.map((author) => (
-        <li
-          key={author[valueProperty]}
-          onClick={() => {
-            onAuthorSelect(author);
-          }}
-          className={
-            author === selectedAuthor
-              ? "list-group-item active"
-              : "list-group-item"
-          }
-        >
-          {author[textProperty]}
-        </li>
-      ))}
+      {authors.map((author) => {
+        return (
+          <li
+            key={author[valueProperty]}
+            onClick={() => {
+              onAuthorSelect(author);
+            }}
+            className={
+              author.name === selectedAuthor.name
+                ? "list-group-item active"
+                : "list-group-item"
+            }
+          >
+            {author[textProperty]}
+          </li>
+        );
+      })}
     </ul>
   );
 };
