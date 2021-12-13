@@ -10,7 +10,6 @@ class BookDetails extends Component {
   componentDidMount() {
     const { match } = this.props;
     const id = match.params.id;
-    console.log(this.props.location);
     this.setState({ book: getBook(id) });
   }
   render() {

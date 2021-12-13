@@ -99,7 +99,7 @@ export function getBook(id) {
 export function saveBook(book) {
   let bookInDb = books.find((m) => m._id === book._id) || {};
   bookInDb.name = book.name;
-  bookInDb.genre = authorsAPI.authors.find((g) => g._id === book.genreId);
+  bookInDb.genre = authorsAPI.authors.find((g) => g._id === book.authorId);
   bookInDb.numberInStock = book.numberInStock;
   bookInDb.dailyRentalRate = book.dailyRentalRate;
 

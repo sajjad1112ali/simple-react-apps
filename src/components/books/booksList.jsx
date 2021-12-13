@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { getBooks } from "./fakeBookService";
+import { NavLink, Link } from "react-router-dom";
+
 import { getAllAuthors } from "./fakeAuthorService";
 import Pagination from "./common/pagination";
 import { paginate } from "../../utils/paginate";
@@ -103,29 +105,34 @@ export class BooksList extends Component {
     if (count === 0) return <p>Books not found in database</p>;
 
     return (
-      <div className="row pt-3">
-        <div className="col-3">
-          <ListGroup
-            authors={this.state.authors}
-            onAuthorSelect={this.handleAuthorSelect}
-            selectedAuthor={this.state.selectedAuthor}
-          />
-        </div>
-        <div className="col-9">
-          <p>Showing {count} books in the database</p>
-          <BooksTable
-            books={books}
-            sortColumn={sortColumn}
-            onDelete={this.handleDelete}
-            onLike={this.handleLike}
-            onSort={this.handleSort}
-          />
-          <Pagination
-            itemsCount={count}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={this.handlePageChange}
-          />
+      <div>
+        <div className="row pt-3">
+          <div className="col-3">
+            <ListGroup
+              authors={this.state.authors}
+              onAuthorSelect={this.handleAuthorSelect}
+              selectedAuthor={this.state.selectedAuthor}
+            />
+          </div>
+          <div className="col-9">
+            <Link className="btn btn-primary" to="/books/new">
+              Add Movie
+            </Link>
+            <p>Showing {count} books in the database</p>
+            <BooksTable
+              books={books}
+              sortColumn={sortColumn}
+              onDelete={this.handleDelete}
+              onLike={this.handleLike}
+              onSort={this.handleSort}
+            />
+            <Pagination
+              itemsCount={count}
+              pageSize={pageSize}
+              currentPage={currentPage}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
         </div>
       </div>
     );
