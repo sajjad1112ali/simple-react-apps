@@ -17,6 +17,22 @@ export default class AddBookForm extends Form {
     authors: [],
     errors: {},
   };
+  schema = {
+    _id: Joi.string(),
+    title: Joi.string().required().label("Title"),
+    about: Joi.string().required().label("About"),
+    authorId: Joi.string().required().label("Author name"),
+    dailyRentalRate: Joi.number()
+      .min(0)
+      .max(10)
+      .required()
+      .label("Daily Rental Rate"),
+    numberInStock: Joi.number()
+      .min(0)
+      .max(100)
+      .required()
+      .label("Daily Rental Rate"),
+  };
 
   componentDidMount() {
     const authors = [...getAllAuthors()];
@@ -29,45 +45,27 @@ export default class AddBookForm extends Form {
       return;
     }
     const book = getBook(bookId);
-    console.log(book);
-    if (!book) this.props.history.replace("/not-found");
+    if (!book) return this.props.history.replace("/not-found");
 
     this.setState({ data: this.mapToViewModel(book) });
   }
   mapToViewModel(book) {
+    console.log("----------------------");
+    console.log(book);
     return {
       _id: book._id,
       title: book.title,
       authorId: book.author._id,
       numberInStock: book.numberInStock,
       dailyRentalRate: book.dailyRentalRate,
-      liked: book.liked,
       about: book.about,
     };
   }
-  schema = {
-    _id: Joi.string(),
-    title: Joi.string().required().label("Title"),
-    about: Joi.string().required().label("About"),
-    authorId: Joi.string().required().label("Author name"),
-    dailyRentalRate: Joi.number()
-      .integer()
-      .min(0)
-      .max(10)
-      .required()
-      .label("Daily Rental Rate"),
-    numberInStock: Joi.number()
-      .integer()
-      .min(0)
-      .max(100)
-      .required()
-      .label("Daily Rental Rate"),
-  };
 
   doSubmit = (e) => {
     console.log("Submitted");
-    console.log("Submitted");
     saveBook(this.state.data);
+    this.props.history.push("/books");
   };
 
   render() {
@@ -79,8 +77,7 @@ export default class AddBookForm extends Form {
           {this.renderInput("numberInStock", "text", "Number In Stock")}
           {this.renderInput("about", "text", "About")}
           {this.renderSelect("authorId", "Author", this.state.authors)}
-
-          {this.renderButton("Login")}
+          {this.renderButton("Add")}
         </form>
       </div>
     );

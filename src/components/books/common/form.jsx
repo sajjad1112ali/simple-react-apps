@@ -21,12 +21,15 @@ export class Form extends Component {
       abortEarly: false,
     };
     const { error } = Joi.validate(this.state.data, this.schema, options);
+
     if (!error) return null;
 
     const errors = {};
     for (let item of error.details) {
       errors[item.path[0]] = item.message;
     }
+    console.log("object");
+    console.log(errors);
     return errors;
   };
   //Form submit event
@@ -41,7 +44,6 @@ export class Form extends Component {
 
   // Input change event
   handleChange = ({ currentTarget: input }) => {
-    console.log(input);
     const data = { ...this.state.data };
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);

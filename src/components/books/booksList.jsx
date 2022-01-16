@@ -11,7 +11,7 @@ import ListGroup from "./listGroup";
 import _ from "lodash";
 
 export class BooksList extends Component {
-  state = JSON.parse(sessionStorage.getItem("componentState")) || {
+  state = {
     books: [],
     pageSize: 4,
     currentPage: 1,
@@ -22,15 +22,10 @@ export class BooksList extends Component {
 
   componentDidMount() {
     const authors = [{ _id: "", name: "All Books" }, ...getAllAuthors()];
-    this.setState(
-      {
-        books: getBooks(),
-        authors,
-      },
-      () => {
-        sessionStorage.setItem("componentState", JSON.stringify(this.state));
-      }
-    );
+    this.setState({
+      books: getBooks(),
+      authors,
+    });
   }
   handleDelete = (id) => {
     const books = this.state.books.filter((book) => book._id !== id);
@@ -49,15 +44,11 @@ export class BooksList extends Component {
   };
 
   handlePageChange = (page) => {
-    this.setState({ currentPage: page }, () => {
-      sessionStorage.setItem("componentState", JSON.stringify(this.state));
-    });
+    this.setState({ currentPage: page });
   };
 
   handleAuthorSelect = (author) => {
-    this.setState({ selectedAuthor: author, currentPage: 1 }, () => {
-      sessionStorage.setItem("componentState", JSON.stringify(this.state));
-    });
+    this.setState({ selectedAuthor: author, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
@@ -116,7 +107,7 @@ export class BooksList extends Component {
           </div>
           <div className="col-9">
             <Link className="btn btn-primary" to="/books/new">
-              Add Movie
+              Add Book
             </Link>
             <p>Showing {count} books in the database</p>
             <BooksTable

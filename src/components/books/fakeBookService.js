@@ -93,18 +93,20 @@ export function getBooks() {
 }
 
 export function getBook(id) {
-  return books.find((m) => m._id === id);
+  return books.find((m) => m._id == id);
 }
 
 export function saveBook(book) {
+  console.log("SAVING BOOK");
+  console.log(book);
   let bookInDb = books.find((m) => m._id === book._id) || {};
-  bookInDb.name = book.name;
-  bookInDb.genre = authorsAPI.authors.find((g) => g._id === book.authorId);
+  bookInDb.title = book.title;
+  bookInDb.author = authorsAPI.authors.find((g) => g._id === book.authorId);
   bookInDb.numberInStock = book.numberInStock;
   bookInDb.dailyRentalRate = book.dailyRentalRate;
 
   if (!bookInDb._id) {
-    bookInDb._id = Date.now();
+    bookInDb._id = Date.now().toString();
     books.push(bookInDb);
   }
 

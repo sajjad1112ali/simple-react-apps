@@ -9,7 +9,7 @@ export default class RegisterForm extends Form {
 
   schema = {
     username: Joi.string().required().email().label("Username"),
-    name: Joi.string().required().label("Name"),
+    name: Joi.string().required().min(5).label("Name"),
     password: Joi.string().required().min(5).label("Password"),
   };
 
@@ -26,7 +26,7 @@ export default class RegisterForm extends Form {
           {this.renderInput("name", "text", "Name")}
           {this.renderInput("password", "password", "Password")}
 
-          {this.renderButton("Register")}
+          {this.renderButton("Add")}
         </form>
       </div>
     );
